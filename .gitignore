@@ -1,0 +1,9 @@
+.venv
+.vscode
+pidtest.py
+qttest.py
+Terminal.controlIdentifier.txt
+terminal.py
+terminal2.py
+terminalwindows.txt
+test.py

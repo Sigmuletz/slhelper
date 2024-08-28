@@ -1,0 +1,91 @@
+{
+    "items_1":{
+        "elements":[
+            {
+                "type":"label", 
+                "title":"Sync commands"
+            },
+            {
+                "type":"button", 
+                "title":"sync_host pu",
+                "command":"sync_host pu{ENTER}"
+            },
+            {
+                "type":"split"
+            },
+            {
+                "type":"button", 
+                "title":"sync_host ru",
+                "command":"sync_host ru{ENTER}"
+            },
+            {
+                "type":"button", 
+                "title":"sync_host ru",
+                "command":"sync_host ru{ENTER}"
+            }             
+        ]
+    },
+    "group_1": {
+        "title":"VPN Commands",
+        "elements":[
+            {
+                "type":"button", 
+                "title":"connect pu 1",
+                "command":"connect -e pu -d fra04 -c be{ENTER}"
+            },
+            {
+                "type":"label", 
+                "title":"Sync commands"
+            },
+            {
+                "type":"button", 
+                "title":"connect ru 2",
+                "command":"connect -e ru -d fra042 -c agw"
+            }        
+        ]
+    },     
+    "group_2": {
+        "title":"Basic Info",
+        "elements":[
+            {
+                "type":"button", 
+                "title":"connect pu 1",
+                "command":"connect -e pu -d fra04 -c be"
+            },
+            {
+                "type":"button", 
+                "title":"connect ru 2",
+                "command":"connect -e ru -d fra042 -c agw"
+            }        
+        ]
+    }, 
+    "group_3":{
+        "title":"Commands Panel",
+        "elements":[
+            {
+                "type":"button", 
+                "title":"ibm ri 1",
+                "command":"12312312{ENTER}"
+            },
+            {
+                "type":"button", 
+                "title":"ibm ru 2",
+                "command":"aasdfasdfasdf{ENTER}"
+            }        
+        ]
+    },
+    "items_2":{
+        "elements":[
+            {
+                "type":"button", 
+                "title":"sync_host pu",
+                "command":"sync_host pu{ENTER}"
+            },
+            {
+                "type":"button", 
+                "title":"sync_host ru",
+                "command":"sync_host ru{ENTER}"
+            }        
+        ]
+    }
+}
