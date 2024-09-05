@@ -12,6 +12,15 @@ data_file = "commandLab.json"
 app = Application(backend="win32").connect(found_index=0, class_name="CASCADIA_HOSTING_WINDOW_CLASS", timeout=10)
 cmd_window = app.window(found_index=0, class_name="CASCADIA_HOSTING_WINDOW_CLASS")
 
+pages = []
+buttons = []
+layouts = []
+groups = []
+texts = []
+splits = []
+combos = []
+lineedits = []
+        
 def split_at_placeholder(s, placeholder="{ENTER}"):
     # Find the index of the first occurrence of the placeholder
     index = s.find(placeholder)
@@ -49,6 +58,18 @@ def comboBoxVariable(name,value):
 def lineEditVariable(name,value):
     globals()[name] = value.text()
     
+@Slot()
+def searchCommands(onPage,searchText): 
+    searchText = searchText.text()
+    
+    for x in buttons:
+        if onPage.isAncestorOf(x):
+            if searchText in x.text():
+                x.show()
+            else:
+                x.hide()
+
+    
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
@@ -56,15 +77,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # Create a QTabWidget
         self.tab_widget = QtWidgets.QTabWidget()
         self.setCentralWidget(self.tab_widget)
-        
-        pages = []
-        buttons = []
-        layouts = []
-        groups = []
-        texts = []
-        splits = []
-        combos = []
-        lineedits = []
         
         # Load JSON data from a file
         with open(data_file, 'r') as file:
@@ -78,6 +90,11 @@ class MainWindow(QtWidgets.QMainWindow):
                 page_layout = layouts[-1]
                 pages[-1].setLayout(page_layout)
                 self.tab_widget.addTab(pages[-1], page_value["title"])    
+                # adding the top search lineedit
+                lineedits.append(QtWidgets.QLineEdit("Search"))
+                lineedits[-1].textChanged.connect(lambda _, p=pages[-1],b=lineedits[-1]:searchCommands(p,b))
+                page_layout.addWidget(lineedits[-1])                       
+
             for key, value in page_value["content"].items():
                 if "group" in key or "items" in key:
                     if "group" in key:
@@ -131,6 +148,7 @@ class MainWindow(QtWidgets.QMainWindow):
                                 page_layout.addWidget(combos[-1])                                
 
 if __name__ == "__main__":
+
     app = QtWidgets.QApplication(sys.argv)
 
     # Create and show the main window
