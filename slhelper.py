@@ -5,8 +5,13 @@ from PySide6.QtCore import Qt, Slot
 import json
 from pywinauto import Application,mouse
 import win32api
+import re
 
 # https://doc.qt.io/qt-6/widget-classes.html#the-widget-classes
+# https://pywinauto.readthedocs.io/en/latest/code/pywinauto.keyboard.html
+#       "command":"kubectl get pods -A | grep {VK_LCONTROL down}v{VK_LCONTROL up}{ENTER}"
+#       "command":"kubectl get pods -A | grep {grep_pod}{ENTER}"
+
 
 data_file = "commandLab.json"
 app = Application(backend="win32").connect(found_index=0, class_name="CASCADIA_HOSTING_WINDOW_CLASS", timeout=10)
@@ -21,19 +26,26 @@ splits = []
 combos = []
 lineedits = []
         
-def split_at_placeholder(s, placeholder="{ENTER}"):
-    # Find the index of the first occurrence of the placeholder
-    index = s.find(placeholder)
+def split_string(input_string):
+    # Regular expression pattern to match words inside {} and outside {}
+    pattern = r'\s*\{.*?\}\s*|[^\{\}\s]+|\s+'
+    # Find all matches of the pattern
+    matches = re.findall(pattern, input_string)
+    return matches
+
+# def split_at_placeholder(s, placeholder="{ENTER}"):
+#     # Find the index of the first occurrence of the placeholder
+#     index = s.find(placeholder)
     
-    if index == -1:
-        # Placeholder not found, return the original string and an empty string
-        return s, ''
+#     if index == -1:
+#         # Placeholder not found, return the original string and an empty string
+#         return s, ''
     
-    # Split the string into two parts
-    part1 = s[:index]
-    part2 = s[index:]  # Include the placeholder in the second part
+#     # Split the string into two parts
+#     part1 = s[:index]
+#     part2 = s[index:]  # Include the placeholder in the second part
     
-    return part1, part2
+#     return part1, part2
 
     
 @Slot()
@@ -42,11 +54,20 @@ def buttonTermial(command):
     try:
         # print(command)
         # print(f"variables: {env} and {tenant}")
-        parts = split_at_placeholder(command)
-        command = parts[0].format_map(globals())+parts[1]
+        new_command = ""
+        parts = split_string(command)
+        for part in parts:
+            try:
+                #replace with global variable
+                new_command += part.format_map(globals())
+            except:
+                #keep special variable - for key codes
+                new_command += part
+        command = new_command
         # print(command)
     except NameError:
         print("Variables missing.. ",command)
+    # cmd_window.type_keys(command, with_spaces=True)
     cmd_window.type_keys(command, with_spaces=True)
     mouse.move([x,y])
     
@@ -99,7 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 if "group" in key or "items" in key:
                     if "group" in key:
                         # Add only for groups
-                        print("Creating a group: ",key)
+                        # print("Creating a group: ",key)
                         groups.append(QtWidgets.QGroupBox(title=value["title"]))  
                         layouts.append(QtWidgets.QVBoxLayout(alignment=Qt.AlignTop))
                         groups[-1].setLayout(layouts[-1])
@@ -108,7 +129,7 @@ class MainWindow(QtWidgets.QMainWindow):
                         
                     ## Check each item from the group or items
                     for item in value["elements"]:
-                        print(item)
+                        # print(item)
                         if item["type"] == "button":
                             buttons.append(QtWidgets.QPushButton(item["title"]))
                             buttons[-1].clicked.connect(lambda _, p=item["command"]: buttonTermial(p))
@@ -154,7 +175,7 @@ if __name__ == "__main__":
     # Create and show the main window
     window = MainWindow()
     window.setWindowTitle("S'Little Helper")
-    window.resize(200, 600)
+    window.resize(200, 800)
     window.show()
 
     # Execute the application

@@ -1,118 +1,98 @@
 {
     "page_1": {
-        "title":"Basic",
+        "title":"Terminal",
         "content":{
             "group_4": {
-                "title":"checkMinimal",
+                "title":"parameters",
                 "elements":[
                     {
                         "type":"combobox", 
                         "name":"env",
-                        "values":["pu","ru"]
+                        "values":["pu","ru","prod","preprod"]
                     },
                     {
                         "type":"combobox", 
                         "name":"tenant",
-                        "values":["aokpl","aokbw","aokno","aokby","barmer","hek"]
+                        "values":["aokby","aokbm","aokhs","aokno","aoknw","aokrh","aokrps","aoksa","barmer","dbk","hek","ibm","kbs","tk","viactiv"]
                     },
+                    {
+                        "type":"combobox", 
+                        "name":"datacenter",
+                        "values":["fra04","fra05","fra02"]
+                    }, 
+                    {
+                        "type":"combobox", 
+                        "name":"cluster",
+                        "values":["be","mgac","agw"]
+                    },                                        
                     {
                         "type":"lineedit", 
                         "name":"kvnr"
-                    },
-                    {
-                        "type":"button", 
-                        "title":"checkMinimal",
-                        "command":"checkminimal -e {env} -t {tenant} -k {kvnr}{ENTER}"
                     }
                 ]
             },
             "items_1":{
                 "elements":[
                     {
-                        "type":"label", 
-                        "title":"Sync commands"
+                        "type":"button", 
+                        "title":"cd work/SCC",
+                        "command":"cd {~}/work/CC2/{ENTER}"
                     },
                     {
                         "type":"button", 
-                        "title":"vpn ega",
-                        "command":"vpn ega{ENTER}"
-                    },
+                        "title":"cd {clipboard}",
+                        "command":"cd {VK_LCONTROL down}v{VK_LCONTROL up}{ENTER}"
+                    },                    
                     {
-                        "type":"split"
+                        "type":"button", 
+                        "title":"CheckMinimal",
+                        "command":"checkminimal -e {env} -t {tenant} -k {kvnr}{ENTER}"
+                    }
+                ]
+            },
+            "group_c":{
+                "title":"Connections",
+                "elements":[               
+                    {
+                        "type":"button", 
+                        "title":"sync_hosts pu",
+                        "command":"sync_hosts.sh pu{ENTER}"
                     },
                     {
                         "type":"button", 
-                        "title":"vpn epa",
-                        "command":"vpn epa{ENTER}"
+                        "title":"sync_hosts ru",
+                        "command":"sync_hosts.sh ru{ENTER}"
+                    },
+                    {
+                        "type":"button", 
+                        "title":"ibmcloud login --sso",
+                        "command":"ibmcloud login --sso{ENTER}"
+                    },                      
+                    {
+                        "type":"button", 
+                        "title":"connect -e {} ",
+                        "command":"connect -e {env}{ENTER}"
+                    },                                      
+                    {
+                        "type":"button", 
+                        "title":"connect -e {} -d {} -c {}",
+                        "command":"connect -e {env} -d {datacenter} -c {cluster}{ENTER}"
                     },
                     {
                         "type":"button", 
                         "title":"vpn epa pu",
+                        "command":"vpn epa {env}{ENTER}"
+                    },
+                    {
+                        "type":"button", 
+                        "title":"vpn epa ru",
                         "command":"vpn epa pu{ENTER}"
+                    },
+                    {
+                        "type":"button",
+                        "title":"vpn ega",
+                        "command":"vpn ega pu{ENTER}"
                     }
-                ]
-            },
-            "group_1": {
-                "title":"VPN Commands",
-                "elements":[
-                    {
-                        "type":"button", 
-                        "title":"connect pu 1",
-                        "command":"connect -e pu -d fra04 -c be{ENTER}"
-                    },
-                    {
-                        "type":"label", 
-                        "title":"Sync commands"
-                    },
-                    {
-                        "type":"button", 
-                        "title":"connect ru 2",
-                        "command":"connect -e ru -d fra042 -c agw"
-                    }        
-                ]
-            },     
-            "group_2": {
-                "title":"Basic Info",
-                "elements":[
-                    {
-                        "type":"button", 
-                        "title":"connect pu 1",
-                        "command":"connect -e pu -d fra04 -c be"
-                    },
-                    {
-                        "type":"button", 
-                        "title":"connect ru 2",
-                        "command":"connect -e ru -d fra042 -c agw"
-                    }        
-                ]
-            }, 
-            "group_3":{
-                "title":"Commands Panel",
-                "elements":[
-                    {
-                        "type":"button", 
-                        "title":"ibm ri 1",
-                        "command":"12312312{ENTER}"
-                    },
-                    {
-                        "type":"button", 
-                        "title":"ibm ru 2",
-                        "command":"aasdfasdfasdf{ENTER}"
-                    }        
-                ]
-            },
-            "items_2":{
-                "elements":[
-                    {
-                        "type":"button", 
-                        "title":"sync_host pu",
-                        "command":"sync_host pu{ENTER}"
-                    },
-                    {
-                        "type":"button", 
-                        "title":"sync_host ru",
-                        "command":"sync_host ru{ENTER}"
-                    }        
                 ]
             }
         }
@@ -123,26 +103,23 @@
             "items_1":{
                 "elements":[
                     {
-                        "type":"label", 
-                        "title":"Sync commands"
+                        "type":"button", 
+                        "title":"kubectl get pods -A",
+                        "command":"kubectl get pods -A{ENTER}"
+                    },
+                    {
+                        "type":"lineedit", 
+                        "name":"grep_pod"
+                    },                    
+                    {
+                        "type":"button", 
+                        "title":"kubectl get pods -A | grep {}",
+                        "command":"kubectl get pods -A | grep {grep_pod}{ENTER}"
                     },
                     {
                         "type":"button", 
-                        "title":"vpn ega",
-                        "command":"vpn ega{ENTER}"
-                    },
-                    {
-                        "type":"split"
-                    },
-                    {
-                        "type":"button", 
-                        "title":"vpn epa",
-                        "command":"vpn epa{ENTER}"
-                    },
-                    {
-                        "type":"button", 
-                        "title":"vpn epa pu",
-                        "command":"vpn epa pu{ENTER}"
+                        "title":"kubectl get pods -A | grep {cliploard}",
+                        "command":"kubectl get pods -A | grep {VK_LCONTROL down}v{VK_LCONTROL up}{ENTER}"
                     }             
                 ]
             }

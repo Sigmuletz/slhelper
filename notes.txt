@@ -1,0 +1,12 @@
+ibmcloud login --sso 
+
+connect -e pu -d fra04 -c be
+connect -e pu -d fra04 -c be
+connect -e pu -d fra04 -c be
+
+db authz
+db authn
+db ram 
+
+kubectl get pods -A
+kubectl get pods -A | grep {}
