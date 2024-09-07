@@ -116,7 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 lineedits[-1].textChanged.connect(lambda _, p=pages[-1],b=lineedits[-1]:searchCommands(p,b))
                 page_layout.addWidget(lineedits[-1])                       
 
-            for key, value in page_value["content"].items():
+            for key, value in page_value["elements"].items():
                 if "group" in key or "items" in key:
                     if "group" in key:
                         # Add only for groups
